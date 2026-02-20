@@ -13,7 +13,27 @@ For a helpful refresher on HMMs and the Forward and Viterbi Algorithms you can c
 [here](https://towardsdatascience.com/markov-and-hidden-markov-model-3eec42298d75), and [here](https://pieriantraining.com/viterbi-algorithm-implementation-in-python-a-practical-guide/). 
 
 
+## Methods (suggested by Gemini)
+I implemented two algorithms for hidden markov models, the forward and Viterbi algorithms:
 
+### `forward(input_observation_states)`
+Calculates the **total likelihood** of a given observation sequence.
+* **Purpose**: Determines how well a specific sequence of observations fits the model parameters.
+* **Mechanism**: Implements the Forward Algorithm using dynamic programming. It iteratively calculates the probability of all possible paths leading to each hidden state at a specific position in the observed sequence, summing them to update the "forward" probability vector.
+* **Output**: Returns a `float` representing $P(\text{Observations} \mid \text{Model})$.
+
+
+
+---
+
+### `viterbi(decode_observation_states)`
+Identifies the **most probable sequence of hidden states** (the Viterbi path) that generated the provided observations.
+* **Purpose**: Used for decoding the most likely "story" behind the observed data.
+* **Mechanism**: 
+    * **Probability Matrix (Viterbi Table)**: Similar to the forward algorithm, but uses the `max` operator to find the single most likely path to each state rather than the sum.
+    * **Backpointers**: Maintains a secondary matrix that records which previous state led to the maximum probability for the current state.
+    * **Traceback**: Once the sequence is processed, it starts from the final state with the highest probability and follows the backpointers in reverse to reconstruct the optimal sequence.
+* **Output**: Returns a `np.ndarray` of hidden state names.
 
 
 ## Tasks and Data 
