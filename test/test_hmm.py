@@ -38,8 +38,11 @@ def test_mini_weather():
         assert np.sum(hmm.emission_p[i,:]) == 1, "Total emission probability of each state must be 1."
 
     forward_prob = hmm.forward(mini_input['observation_state_sequence'])
-    assert forward_prob == 0.035064411621093756, 'Forward probability for mini weather sequence is incorrect'
-
+    expected_prob = 0.035064411621093756
+    # This will raise an AssertionError with a detailed message if they don't match, suggested by Gemini 
+    # since github actions was calculating the float point value slightly differently than my local machine
+    np.testing.assert_allclose(forward_prob, expected_prob, rtol=1e-5, atol=0)
+    
     viterbi_sequence = hmm.viterbi(mini_input['observation_state_sequence'])
     for i in range(len(viterbi_sequence)):
         assert viterbi_sequence[i] == mini_input['best_hidden_state_sequence'][i], 'Viterbi sequence for mini weather sequence is incorrect'
